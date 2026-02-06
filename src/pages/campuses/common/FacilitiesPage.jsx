@@ -1,0 +1,173 @@
+import Hero from "../../../components/ui/Hero";
+import Section from "../../../components/ui/Section";
+import Card from "../../../components/ui/Card";
+import Badge from "../../../components/ui/Badge";
+import Button from "../../../components/ui/Button";
+import { Building, Wifi, Library, Activity, Coffee, Stethoscope, Dumbbell, Monitor, FlaskConical, Bus } from "lucide-react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
+const FacilitiesPage = () => {
+  const navigate = useNavigate();
+
+  const facilities = [
+    {
+      category: "Academic Infrastructure",
+      description: "World-class learning environments designed to foster creativity and innovation.",
+      items: [
+        {
+          name: "Smart Classrooms",
+          description: "Air-conditioned classrooms equipped with multimedia projectors, smart boards, and high-speed internet to facilitate interactive learning.",
+          icon: Monitor,
+          color: "blue",
+          image: "https://placehold.co/600x400?text=Classroom"
+        },
+        {
+          name: "Digital Libraries",
+          description: "Access to thousands of e-books, journals, and research papers along with quiet study zones and discussion rooms.",
+          icon: Library,
+          color: "amber",
+          image: "https://placehold.co/600x400?text=Library"
+        },
+        {
+          name: "Science Labs",
+          description: "State-of-the-art Physics, Chemistry, and Biology laboratories ensuring practical exposure for science students.",
+          icon: FlaskConical,
+          color: "emerald",
+          image: "https://placehold.co/600x400?text=Science+Lab"
+        },
+        {
+          name: "Computer Centers",
+          description: "Advanced computing facilities with the latest software development tools and high-performance workstations.",
+          icon: Wifi,
+          color: "purple",
+          image: "https://placehold.co/600x400?text=Computer+Lab"
+        },
+      ],
+    },
+    {
+      category: "Student Support & Services",
+      description: "Ensuring a comfortable and holistic campus experience for every student.",
+      items: [
+        {
+          name: "Cafeteria",
+          description: "A hygienic and vibrant space serving nutritious meals and snacks. A perfect spot for students to socialize.",
+          icon: Coffee,
+          color: "orange",
+          image: "https://placehold.co/600x400?text=Cafeteria"
+        },
+        {
+          name: "Sports Complex",
+          description: "Indoor and outdoor sports facilities including cricket grounds, basketball courts, and a gymnasium.",
+          icon: Dumbbell,
+          color: "red",
+          image: "https://placehold.co/600x400?text=Sports"
+        },
+        {
+          name: "Medical Centre",
+          description: "On-campus medical assistance with qualified staff to handle health emergencies and routine checkups.",
+          icon: Stethoscope,
+          color: "cyan",
+          image: "https://placehold.co/600x400?text=Medical"
+        },
+        {
+          name: "Transport Service",
+          description: "Safe and reliable transport fleet covering all major routes of the city for students and faculty.",
+          icon: Bus,
+          color: "yellow",
+          image: "https://placehold.co/600x400?text=Transport"
+        },
+      ],
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-white">
+      <Hero
+        title="World-Class Facilities"
+        subtitle="Infrastructure for Excellence"
+        description="We provide a conducive environment where students can learn, grow, and thrive. Explore our state-of-the-art campus facilities."
+        image="https://placehold.co/1920x800?text=Facilities"
+        centered
+        className="rounded-3xl"
+      />
+
+      {facilities.map((category, catIdx) => (
+        <Section key={category.category} className={catIdx % 2 !== 0 ? "bg-gray-50" : "bg-white"} spacing="large">
+          <Section.Header
+            title={category.category}
+            description={category.description}
+          />
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {category.items.map((facility, idx) => {
+              const colorMap = {
+                blue: "bg-blue-500/20",
+                amber: "bg-amber-500/20",
+                emerald: "bg-emerald-500/20",
+                purple: "bg-purple-500/20",
+                orange: "bg-orange-500/20",
+                red: "bg-red-500/20",
+                cyan: "bg-cyan-500/20",
+                yellow: "bg-yellow-500/20",
+              };
+              const bgClass = colorMap[facility.color] || "bg-gray-500/20";
+
+              return (
+                <motion.div
+                  key={facility.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <Card hover className="h-full overflow-hidden p-0 rounded-3xl">
+                    <div className="h-64 overflow-hidden relative group">
+                      <img
+                        src={facility.image}
+                        alt={facility.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+                        <div className="text-white">
+                          <div className={`p-2 rounded-2xl ${bgClass} backdrop-blur-md inline-flex items-center justify-center mb-2`}>
+                            <facility.icon className="w-6 h-6 text-white" />
+                          </div>
+                          <h3 className="text-2xl font-bold">{facility.name}</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <p className="text-gray-600 leading-relaxed">
+                        {facility.description}
+                      </p>
+                    </div>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
+        </Section>
+      ))}
+
+      <Section background="gradient" className="text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto"
+        >
+          <h2 className="text-3xl font-bold mb-6">Experience It Yourself</h2>
+          <p className="text-lg text-gray-600 mb-8">
+            We invite you to visit our campus and see our facilities firsthand. Book a guided tour today.
+          </p>
+          <Button size="lg" variant="outline" className="bg-white text-blue-900 border-white hover:bg-blue-50" onClick={() => navigate("/contact")}>
+            Schedule a Visit
+          </Button>
+        </motion.div>
+      </Section>
+    </div>
+  );
+};
+
+export default FacilitiesPage;
